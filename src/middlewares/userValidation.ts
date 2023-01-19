@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
+import { SHORT_PASSWORD, INVALID_EMAIL, SHORT_NAME } from '../utils/static';
 
 export const loginValidation = [
-  body("email").isEmail().withMessage("Please provide a valid email"),
+  body("email").isEmail().withMessage(INVALID_EMAIL),
   body("password")
     .isLength({ min: 8 })
-    .withMessage("Password should have atleast 8 characters"),
+    .withMessage(SHORT_PASSWORD),
 
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -19,11 +20,11 @@ export const loginValidation = [
 export const registerValidation = [
   body("name")
     .isLength({ min: 3 })
-    .withMessage("Name should have atleast 3 characters"),
-  body("email").isEmail().withMessage("Please provide a valid email"),
+    .withMessage(SHORT_NAME),
+  body("email").isEmail().withMessage(INVALID_EMAIL),
   body("password")
     .isLength({ min: 8 })
-    .withMessage("Password should have atleast 8 characters"),
+    .withMessage(SHORT_PASSWORD),
 
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);

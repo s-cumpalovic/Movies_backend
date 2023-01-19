@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { EMAIL_EXISTS } from '../utils/static';
 
 //  Interface
 
@@ -36,7 +37,7 @@ UserSchema.pre("save", async function (next) {
   if (user.isModified("email")) {
     const emailExist = await UserModel.findOne({ email: user.email });
     if (emailExist) {
-      return next(new Error("Email already exists"));
+      return next(new Error(EMAIL_EXISTS));
     }
   }
 });

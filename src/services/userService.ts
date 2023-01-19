@@ -2,6 +2,7 @@ import { DocumentDefinition } from "mongoose";
 import { UserModel, IUser } from "../models/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { EMAIL_DOESNT_EXIST, WRONG_PASSWORD } from "../utils/static";
 
 const SECRET_KEY = process.env.SECRET_KEY || "dba582594411671429b";
 
@@ -15,7 +16,7 @@ export async function register(user: DocumentDefinition<IUser>) {
   }
 }
 
-//  Login funcionallity 
+//  Login funcionallity
 
 export async function login(user: DocumentDefinition<IUser>) {
   try {
@@ -23,7 +24,7 @@ export async function login(user: DocumentDefinition<IUser>) {
       email: user.email,
     });
     if (!foundUser) {
-      throw new Error("User with this email doesn't exist");
+      throw new Error(EMAIL_DOESNT_EXIST);
     }
 
     const isMatch = bcrypt.compareSync(user.password, foundUser.password);
@@ -37,12 +38,9 @@ export async function login(user: DocumentDefinition<IUser>) {
       );
 
       return { user, token };
-
     } else {
-      throw new Error("Password is incorrect");
+      throw new Error(WRONG_PASSWORD);
     }
-
-    return foundUser;
   } catch (err) {
     throw err;
   }
