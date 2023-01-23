@@ -10,7 +10,17 @@ const SECRET_KEY = process.env.SECRET_KEY || "dba582594411671429b";
 
 export async function register(user: DocumentDefinition<IUser>) {
   try {
-    return await UserModel.create(user);
+    const newUser = await UserModel.create(user);
+    if (newUser) {
+      const token = jwt.sign(
+        { _id: newUser._id, email: newUser.email, name: newUser.name },
+        SECRET_KEY,
+        {
+          expiresIn: "5 minutes",
+        }
+      );
+      return { newUser, token };
+    }
   } catch (err) {
     throw err;
   }
@@ -33,7 +43,7 @@ export async function login(user: DocumentDefinition<IUser>) {
         { _id: foundUser._id, email: foundUser.email },
         SECRET_KEY,
         {
-          expiresIn: "2 days",
+          expiresIn: "5 minutes",
         }
       );
 
