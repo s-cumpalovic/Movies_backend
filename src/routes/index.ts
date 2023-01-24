@@ -1,6 +1,7 @@
 import { Router } from "express";
 import user from "./user";
 import movie from "./movie";
+import genre from "./genre";
 
 const routes = Router();
 
@@ -9,6 +10,7 @@ const routes = Router();
  *   So that they can be used in the app.ts file in one instance
  */
 
+routes.use("/genre", genre);
 routes.use("/user", user);
 routes.use("/movies", movie);
 
