@@ -2,10 +2,12 @@ import { MovieModel } from "../models/movie";
 import { IMovies } from "../types/types";
 import { MOVIE_NOT_FOUND } from "../utils/static";
 
-export async function getMovies() {
+export async function getMovies(page = 1, limit = 10) {
   try {
-    const movies = await MovieModel.find();
-    return movies;
+    const count = await MovieModel.countDocuments();
+    const skip = (page - 1) * limit;
+    const movies = await MovieModel.find().skip(skip).limit(limit);
+    return { data: movies, count };
   } catch (err) {
     throw err;
   }

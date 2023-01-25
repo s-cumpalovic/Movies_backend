@@ -4,8 +4,17 @@ import * as movieServices from "../services/movieService";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const foundMovies = await movieServices.getMovies();
-    res.status(200).send(foundMovies);
+    const page: any = req.query.page || 1;
+    const limit: any = req.query.limit || 10;
+    const foundMovies = await movieServices.getMovies(page, limit);
+    const totalPages = Math.ceil(foundMovies.count / limit);
+    const metadata = {
+      page: page,
+      limit: limit,
+      totalPages: totalPages,
+    };
+
+    res.status(200).send({ movies: foundMovies.data, metadata });
   } catch (err) {
     return res.status(500).send(getErrorMessage(err));
   }

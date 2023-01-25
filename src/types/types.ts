@@ -1,3 +1,4 @@
+
 export interface ICorsOptions {
   origin: string;
   credentials: boolean;
@@ -5,8 +6,10 @@ export interface ICorsOptions {
 }
 
 export interface IMovies {
-  title: string,
-  description: string,
-  coverImage: string,
-  genre: string,
+  title: string;
+  description: string;
+  coverImage: string;
+  genre: string;
 }
+
+
