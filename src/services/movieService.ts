@@ -2,11 +2,19 @@ import { MovieModel } from "../models/movie";
 import { IMovies } from "../types/types";
 import { MOVIE_NOT_FOUND } from "../utils/static";
 
-export async function getMovies(page = 1, limit = 10) {
+export async function getMovies(page = 1, limit = 10, searchTerm = "") {
   try {
-    const count = await MovieModel.countDocuments();
     const skip = (page - 1) * limit;
-    const movies = await MovieModel.find().skip(skip).limit(limit);
+    const count = await MovieModel.find({
+      title: { $regex: searchTerm },
+    }).count();
+
+    const movies = await MovieModel.find({
+      title: { $regex: searchTerm },
+    })
+      .skip(skip)
+      .limit(limit);
+      console.log(count);
     return { data: movies, count };
   } catch (err) {
     throw err;

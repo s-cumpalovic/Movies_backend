@@ -6,8 +6,10 @@ export const getAll = async (req: Request, res: Response) => {
   try {
     const page: any = req.query.page || 1;
     const limit: any = req.query.limit || 10;
-    const foundMovies = await movieServices.getMovies(page, limit);
+    const searchTerm: any = req.query.searchTerm || "";
+    const foundMovies = await movieServices.getMovies(page, limit, searchTerm);
     const totalPages = Math.ceil(foundMovies.count / limit);
+
     const metadata = {
       page: page,
       limit: limit,

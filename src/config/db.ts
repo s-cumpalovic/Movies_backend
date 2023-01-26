@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 //  Database connection
 
-const DB_URL = process.env.DB_URL || 'mongodb://localhost:27017/movies' ;
+const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/movies";
 
-export default function connectDB() {
+export default async function connectDB() {
   try {
-    mongoose.set("strictQuery", true);
-    mongoose.connect(DB_URL, () => {
+    await mongoose.set("strictQuery", true);
+    await mongoose.connect(DB_URL, () => {
       console.log("Connected to MongoDB");
     });
   } catch (err) {

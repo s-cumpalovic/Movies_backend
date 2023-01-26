@@ -1,10 +1,8 @@
 import { DocumentDefinition } from "mongoose";
 import { UserModel, IUser } from "../models/user";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { EMAIL_DOESNT_EXIST, WRONG_PASSWORD } from "../utils/static";
-
-const SECRET_KEY = process.env.SECRET_KEY || "dba582594411671429b";
+import { signAuthToken } from "../utils/helperFunctions";
 
 //  Registration funcionallity
 
@@ -12,13 +10,7 @@ export async function register(user: DocumentDefinition<IUser>) {
   try {
     const newUser = await UserModel.create(user);
     if (newUser) {
-      const token = jwt.sign(
-        { _id: newUser._id, email: newUser.email, name: newUser.name },
-        SECRET_KEY,
-        {
-          expiresIn: "5 minutes",
-        }
-      );
+      const token = signAuthToken(newUser);
       return { newUser, token };
     }
   } catch (err) {
@@ -39,13 +31,7 @@ export async function login(user: DocumentDefinition<IUser>) {
 
     const isMatch = bcrypt.compareSync(user.password, foundUser.password);
     if (isMatch) {
-      const token = jwt.sign(
-        { _id: foundUser._id, email: foundUser.email },
-        SECRET_KEY,
-        {
-          expiresIn: "5 minutes",
-        }
-      );
+      const token = signAuthToken(foundUser);
 
       return { user, token };
     } else {

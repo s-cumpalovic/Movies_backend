@@ -16,4 +16,5 @@ const MovieSchema: mongoose.Schema<IMovie> = new mongoose.Schema({
   genre: { type: String, required: true },
 });
 
+
 export const MovieModel = mongoose.model<IMovie>("Movie", MovieSchema);
