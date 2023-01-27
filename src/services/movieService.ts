@@ -14,7 +14,6 @@ export async function getMovies(page = 1, limit = 10, searchTerm = "") {
     })
       .skip(skip)
       .limit(limit);
-      console.log(count);
     return { data: movies, count };
   } catch (err) {
     throw err;
@@ -23,7 +22,7 @@ export async function getMovies(page = 1, limit = 10, searchTerm = "") {
 
 export async function getSingleMovie(movieId: string) {
   try {
-    const movie = await MovieModel.findById(movieId);
+    const movie = await MovieModel.findById(movieId).populate("genres");
     if (!movie) {
       throw new Error(MOVIE_NOT_FOUND);
     }

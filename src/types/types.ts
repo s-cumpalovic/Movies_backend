@@ -1,4 +1,3 @@
-
 export interface ICorsOptions {
   origin: string;
   credentials: boolean;
@@ -9,7 +8,9 @@ export interface IMovies {
   title: string;
   description: string;
   coverImage: string;
-  genre: string;
+  genres: IGenreType[];
 }
 
-
+export interface IGenreType {
+  name: String;
+}
