@@ -7,6 +7,8 @@
     "build": "tsc",
     "dev": "nodemon -r dotenv/config ./src/app.ts",
     "start": "ts-node ./dist/app.js",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register './src/tests/*.spec.ts'",
+    "test-watch": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --watch ./src/test/*.spec.ts'",
     "seed-genres": "ts-node src/seeders/genreSeeder.ts",
     "seed-movies": "ts-node src/seeders/movieSeeder.ts"
   },
@@ -29,9 +31,13 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@types/chai": "^4.3.4",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"

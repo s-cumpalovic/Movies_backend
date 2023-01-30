@@ -12,5 +12,12 @@ export interface IMovies {
 }
 
 export interface IGenreType {
-  name: String;
+  _id?: String;
+  name?: String;
+}
+
+export interface IUserType {
+  name?: String;
+  email: String;
+  password: String;
 }
