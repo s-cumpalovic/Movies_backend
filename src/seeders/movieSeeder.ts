@@ -18,7 +18,8 @@ import connectDB from "../config/db";
 
     let movies: IMovies[] = [];
     for (let i = 0; i < movieCount; i++) {
-      const randomGenres = faker.helpers.arrayElements(genres);
+      const randomNumber = Math.floor(Math.random() * 3) + 1;
+      const randomGenres = faker.helpers.arrayElements(genres, randomNumber);
       let genresIds: any[] = [];
       randomGenres.map((genre) => genresIds.push(genre._id));
 

@@ -1,19 +1,28 @@
 import { MovieModel } from "../models/movie";
 import { IMovies } from "../types/types";
 import { MOVIE_NOT_FOUND } from "../utils/static";
+import mongoose from "mongoose";
 
-export async function getMovies(page = 1, limit = 10, searchTerm = "") {
+export async function getMovies(
+  page = 1,
+  limit = 10,
+  searchTerm = "",
+  genreId = ""
+) {
   try {
     const skip = (page - 1) * limit;
     const count = await MovieModel.find({
       title: { $regex: searchTerm },
+      ...(genreId ? { genres: genreId } : {}),
     }).count();
 
     const movies = await MovieModel.find({
       title: { $regex: searchTerm },
+      ...(genreId ? { genres: genreId } : {}),
     })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate("genres");
     return { data: movies, count };
   } catch (err) {
     throw err;
