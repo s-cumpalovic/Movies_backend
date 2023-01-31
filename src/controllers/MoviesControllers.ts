@@ -7,7 +7,14 @@ export const getAll = async (req: Request, res: Response) => {
     const page: any = req.query.page || 1;
     const limit: any = req.query.limit || 10;
     const searchTerm: any = req.query.searchTerm || "";
-    const foundMovies = await movieServices.getMovies(page, limit, searchTerm);
+    const genreId: any = req.query.genreId || undefined;
+
+    const foundMovies = await movieServices.getMovies(
+      page,
+      limit,
+      searchTerm,
+      genreId
+    );
     const totalPages = Math.ceil(foundMovies.count / limit);
 
     const metadata = {
